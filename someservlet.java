@@ -20,22 +20,18 @@ import java.util.TreeMap;
 import java.util.Map;
 import com.google.gson.*;
 import java.util.ListIterator;
-@WebServlet("/UploadServlet")
-@MultipartConfig
-public class UploadServlet extends HttpServlet{
+@WebServlet("/someservlet")
+public class someservlet extends HttpServlet{
     private static final long serialVersionVID=1L;
-      public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        PrintWriter out=response.getWriter();
-         String path="C:\\Users\\mukesh-pt4612\\Desktop\\Tomcat";
-         Part part=request.getPart("file1");
-         String fileName=part.getSubmittedFileName();
-         String finalLocation = path + File.separator + fileName;
-         File file=new File(finalLocation);
+     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        JSONObject obj = new JSONObject();
+ServletContext context=getServletContext(); 
+String finalLocation=(String)context.getAttribute("file");
+File file=new File(finalLocation);
+         //Scanner sc=new Scanner(file);
          FileInputStream fstream=new FileInputStream(file);
          BufferedReader br=new BufferedReader(new InputStreamReader(fstream));
-         ServletContext context=getServletContext();  
-         context.setAttribute("file",finalLocation);
-         String name="";
+      String name="";
          TreeMap<String,String> options= new TreeMap<String,String>();
          String str;
          while((str = br.readLine()) != null){
@@ -55,22 +51,15 @@ public class UploadServlet extends HttpServlet{
                  
              }
           }
+        context.setAttribute("Map",options);
       String json=new Gson().toJson(options);
        //ServletContext context=getServletContext();
-context.setAttribute("name",json);
-response.setContentType("application/json");
-    response.setCharacterEncoding("UTF-8");
+     PrintWriter out=response.getWriter();
+     response.setContentType("application/json");
+     response.setCharacterEncoding("UTF-8");
+      out.write(json);
 
-
-      //out.write(json);
-response.sendRedirect("redirect.html"); 
-// RequestDispatcher rd=request.getRequestDispatcher("someservlet"); 
-
-       //rd.forward(request, response);  
- 
-     
       
-        
-         }
+}
         
 }
