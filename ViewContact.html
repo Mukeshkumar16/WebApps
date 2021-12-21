@@ -32,6 +32,17 @@
    .contact-info{
     padding:3emn 1.5em;
     }
+ input[type=submit]{
+    display:flex;
+    width:30%;
+    margin:0px auto;
+    align-items:center;
+    padding:1em 2em;
+    margin-top:2em;
+    border-radius:20px;
+    background:Linear-gradient(90deg, rgba(66,159,124,1) 0%,rgba(161,193,78,1) 100%);
+    align:center;
+    }
     .contact-info{
      display:flex;
      width:70%;
@@ -52,7 +63,6 @@
          // $("div").append(responseJson);              
        $.each(responseJson, function(index,key) {               
              $("#info").append("<br><p>"+key+"</p>");
-            
         });
     });
   </script>
@@ -63,9 +73,12 @@
      <form method="Post" action="Edit">
      <div class="image">
       <input type="image" src="edit.png" height="50" width="40">
+     </form>
+     <form method="Post" action="DeleteContact">
       <section class="contact-info"><div class="info-line" id="info"></div></section>
      </div>
-     </form>
+     <input type="submit" value="Delete"><br>
+     <form>
      <div>
    </body>
 </html>
