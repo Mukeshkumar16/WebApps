@@ -20,46 +20,55 @@ import java.util.TreeMap;
 import java.util.Map;
 import com.google.gson.*;
 import java.util.ListIterator;
-@WebServlet("/someservlet")
-public class someservlet extends HttpServlet{
+@WebServlet("/DisplayContact")
+@MultipartConfig
+public class DisplayContact extends HttpServlet{
     private static final long serialVersionVID=1L;
-     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        PrintWriter out=response.getWriter();
+           ServletContext context=getServletContext();
+           String Fname=(String)context.getAttribute("ViewContact");
         JSONObject obj = new JSONObject();
-        ServletContext context=getServletContext(); 
         String finalLocation=(String)context.getAttribute("file");
          File file=new File(finalLocation);
-         //Scanner sc=new Scanner(file);
          FileInputStream fstream=new FileInputStream(file);
          BufferedReader br=new BufferedReader(new InputStreamReader(fstream));
-      String name="";
-         TreeMap<String,String> options= new TreeMap<String,String>();
+         ArrayList<String> Contacts=new ArrayList<String>();
+        
          String str;
          while((str = br.readLine()) != null){
           String key="";
-        ArrayList<String> b=new ArrayList<String>();
           String value="";
             if(str.startsWith("FN")){
-                //out.println(str.substring(str.lastIndexOf(":")+1,str.length())+"<br>");
                  key+=str.substring(str.lastIndexOf(":")+1,str.length());
-                 
+                 if(key.length()==Fname.length()){
+                     String s="";
+                     String s2="";
+                     if(key.length()>4){
+                      s+=key.substring(0,key.length()-3);
+                     s2+=Fname.substring(0,Fname.length()-3);
+                   }else{
+                       s+=key;
+                       s2+=Fname;
+                       }
+                     if(s.equals(s2)){
+                        Contacts.add(Fname);
                       String st;
                        while((st=br.readLine())!=null && st.startsWith("TEL")){
-                           //out.println(st.substring(st.lastIndexOf("=")+1,st.length())+"<br>");
-                          value+=st.substring(st.lastIndexOf("=")+1,st.length())+",";
-                       }
-                      options.put(key,value);
-                 
+                               String Mobile=st.substring(st.lastIndexOf("=")+1,st.length());
+                           Contacts.add(Mobile);
+                       } 
+                    }  
+                 }
              }
           }
-        context.setAttribute("Map",options);
-      String json=new Gson().toJson(options);
-       //ServletContext context=getServletContext();
-     PrintWriter out=response.getWriter();
+         
+       String json=new Gson().toJson(Contacts);
+    // PrintWriter out=response.getWriter();
      response.setContentType("application/json");
      response.setCharacterEncoding("UTF-8");
       out.write(json);
-
-      
-}
+      //out.println(json);
+         }
         
 }

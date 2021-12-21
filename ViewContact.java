@@ -20,24 +20,17 @@ import java.util.TreeMap;
 import java.util.Map;
 import com.google.gson.*;
 import java.util.ListIterator;
-@WebServlet("/UploadServlet")
+@WebServlet("/ViewContact")
 @MultipartConfig
-public class UploadServlet extends HttpServlet{
+public class ViewContact extends HttpServlet{
     private static final long serialVersionVID=1L;
       public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         PrintWriter out=response.getWriter();
-         String path="C:\\Users\\mukesh-pt4612\\Desktop\\Tomcat";
-         Part part=request.getPart("file1");
-         String fileName=part.getSubmittedFileName();
-         String finalLocation = path + File.separator + fileName;
-         File file=new File(finalLocation);
-         FileInputStream fstream=new FileInputStream(file);
-         BufferedReader br=new BufferedReader(new InputStreamReader(fstream));
-         ServletContext context=getServletContext();  
-         context.setAttribute("file",finalLocation);
-         response.setContentType("application/json");
-         response.setCharacterEncoding("UTF-8");
-         response.sendRedirect("redirect.html"); 
+           ServletContext context=getServletContext();
+           String Fname=request.getParameter("View");
+           context.setAttribute("ViewContact",Fname);
+            response.sendRedirect("ViewContact.html");
+           //out.println(Fname);
          }
         
 }
