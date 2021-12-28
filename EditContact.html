@@ -1,0 +1,81 @@
+<html>
+
+   <body>
+<style>
+    .container{
+     max-width:428px;
+     margin: 0 auto;
+     background-color:#313438;
+     }
+      .header{
+      display:flex;
+      justify-content:space-evenly;
+      color:#fff;
+      background:Linear-gradient(90deg, rgba(66,159,124,1) 0%,rgba(161,193,78,1) 100%);
+      padding:2em 0;
+      align-items:center;
+   }
+     .contact-search
+     {
+      font-size:1.2em;
+      padding:.3em;
+      border-radius:100px;
+      border:1px solid #fff;
+    }
+   .contact-section{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding: 0 1.5em;
+    transition:0.3s;
+    }
+   .contact-info{
+    padding:3emn 1.5em;
+    }
+ input[type=submit]{
+    display:flex;
+    width:30%;
+    margin:0px auto;
+    align-items:center;
+    padding:1em 2em;
+    margin-top:2em;
+    border-radius:20px;
+    background:Linear-gradient(90deg, rgba(66,159,124,1) 0%,rgba(161,193,78,1) 100%);
+    align:center;
+    }
+    .contact-info{
+     display:flex;
+     width:70%;
+     margin:0 auto;
+     color:white;
+    align-items:center;
+    padding:1em 2em;
+    margin-top:2em;
+    border-radius:20px;
+    box-shadow:6px 6px 12px #2d2f33,-6px -6px 12px #35393d;
+    }
+.contact-section:hover{background-color:#48494a;}
+</style>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script>
+               var counter=0;
+    $.get("DisplayContact", function(responseJson) {
+         // $("div").append(responseJson);              
+       $.each(responseJson, function(index,key) {               
+             $("#info").append("<br><input type=text value='"+key+"'name='"+(counter++)+"'><br>");
+        });
+        $("#info").append("<input type=hidden value='"+counter+"'name=count>");
+    });
+  </script>
+    <div class="container">
+     <header class="header">
+        <input type="image" src="profile.png" height="200px" width="200px">
+     </header>
+     <form method="Post" action="EditContact">
+      <section class="contact-info"><div class="info-line" id="info"></div></section>
+    
+     <input type="submit" value="Save"><br>
+     <form>
+     <div>
+   </body>
+</html>
