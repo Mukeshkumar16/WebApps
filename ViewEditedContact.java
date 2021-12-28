@@ -55,9 +55,8 @@ public class ViewEditedContact extends HttpServlet{
                     buffer.append(arr[i++]+System.lineSeparator());
                     String st="";
                     while((st=br.readLine())!=null){
-                       
                         if(st.startsWith("TEL")){
-                            buffer.append(st.substring(0,st.lastIndexOf(":")));
+                            buffer.append(st.substring(0,st.lastIndexOf("=")+1));
                             buffer.append(arr[i++]+System.lineSeparator());
                          }
                          if(st.startsWith("END")){
