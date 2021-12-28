@@ -26,8 +26,10 @@ public class DeleteContact extends HttpServlet{
       public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         PrintWriter out=response.getWriter();
            ServletContext context=getServletContext();
+          
            String ContactName=(String)context.getAttribute("ViewContact");
-           String finalLocation=(String)context.getAttribute("file");
+           HttpSession session=request.getSession();
+           String finalLocation=(String)session.getAttribute("file");
            File file=new File(finalLocation);
            FileInputStream fstream=new FileInputStream(file);
            BufferedReader br=new BufferedReader(new InputStreamReader(fstream));
@@ -56,7 +58,8 @@ public class DeleteContact extends HttpServlet{
       FileWriter writer = new FileWriter(finalLocation);
       writer.append(fileContents);
       writer.flush();
-      response.sendRedirect("redirect.html");
+      response.sendRedirect("ViewContactList.html");
+          
            
          }
         

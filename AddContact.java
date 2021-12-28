@@ -24,18 +24,45 @@ import java.util.ListIterator;
 public class AddContact extends HttpServlet{
     private static final long serialVersionVID=1L;
       public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        PrintWriter out=response.getWriter();
+           PrintWriter out=response.getWriter();
            //ServletContext context=getServletContext();
            String ContactName=request.getParameter("ContactName");
            String Phoneno=request.getParameter("Phoneno");
            String Email=request.getParameter("Email");
  try {
-         
          ServletContext context=getServletContext();
-         String file=(String)context.getAttribute("file");
-         //out.println(file);  
-         FileWriter fileWritter = new FileWriter(file,true);
+          HttpSession session=request.getSession();
+         String finalLocation=(String)session.getAttribute("file");
+         //out.println(file); 
+         StringBuffer buffer=new StringBuffer(); 
+         FileWriter fileWritter = new FileWriter(finalLocation,true);
          BufferedWriter bw = new BufferedWriter(fileWritter);
+         File file=new File(finalLocation);
+         FileInputStream fstream=new FileInputStream(file);
+         BufferedReader br=new BufferedReader(new InputStreamReader(fstream));
+         String str;
+          int flag=0;
+         while((str=br.readLine())!=null){
+             String name="";
+             if(str.startsWith("FN")){
+                buffer.append(str+System.lineSeparator());
+                name+=str.substring(str.lastIndexOf(":")+1,str.length());
+                if(name.equals(ContactName)){
+                    out.println(name);
+                     buffer.append("TEL:TYPE=Mobile:"+Phoneno+System.lineSeparator());
+                     flag=1;
+                 }
+             }else{
+                   buffer.append(str+System.lineSeparator());
+                   }
+         }
+          if(flag==1){
+                  String fileContents=buffer.toString();
+                  FileWriter writer=new FileWriter(finalLocation);
+                  writer.append(fileContents);
+                  writer.flush();
+          }
+           else{  
          bw.write("BEGIN:VCARD\n");
          bw.write("VERSION: 3.0\n");
          bw.write("FN:"+ContactName+"\n");
@@ -44,10 +71,13 @@ public class AddContact extends HttpServlet{
          bw.write("END:VCARD");
        bw.close();
          System.out.println("Done");
-      } catch(IOException e){
+        }
+         } catch(IOException e){
          e.printStackTrace();
-      }
-           response.sendRedirect("redirect.html");
+         }
+         
+           response.sendRedirect("ViewContactList.html");
+          
          }
         
 }

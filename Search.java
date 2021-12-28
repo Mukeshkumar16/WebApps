@@ -30,6 +30,7 @@ public class Search extends HttpServlet{
         ServletContext context=getServletContext();
         context.setAttribute("Fname",Fname);
         response.sendRedirect("Display.html"); 
+        
          }
         
 }

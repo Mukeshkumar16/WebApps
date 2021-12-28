@@ -27,9 +27,13 @@ public class DisplayContact extends HttpServlet{
       public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         PrintWriter out=response.getWriter();
            ServletContext context=getServletContext();
+          
            String Fname=(String)context.getAttribute("ViewContact");
         JSONObject obj = new JSONObject();
-        String finalLocation=(String)context.getAttribute("file");
+        HttpSession session=request.getSession();
+        final String finalLocation=(String)session.getAttribute("file");
+        //out.println(finalLocation);
+        context.setAttribute("file2",finalLocation);
          File file=new File(finalLocation);
          FileInputStream fstream=new FileInputStream(file);
          BufferedReader br=new BufferedReader(new InputStreamReader(fstream));
@@ -69,6 +73,7 @@ public class DisplayContact extends HttpServlet{
      response.setCharacterEncoding("UTF-8");
       out.write(json);
       //out.println(json);
+          
          }
         
 }

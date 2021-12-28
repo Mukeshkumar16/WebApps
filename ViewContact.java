@@ -27,10 +27,12 @@ public class ViewContact extends HttpServlet{
       public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         PrintWriter out=response.getWriter();
            ServletContext context=getServletContext();
+           
            String Fname=request.getParameter("View");
            context.setAttribute("ViewContact",Fname);
             response.sendRedirect("ViewContact.html");
            //out.println(Fname);
+         
          }
         
 }
